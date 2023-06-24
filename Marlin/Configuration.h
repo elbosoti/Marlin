@@ -70,6 +70,7 @@
   #define MOTHERBOARD BOARD_BTT_SKR_MINI_E3_V3_0
 #endif
 
+#define DIAG_JUMPERS_REMOVED
 /**
  * Select the serial port on the board to use for communication with the host.
  * This allows the connection of wireless adapters (for instance) to non-default port pins.
