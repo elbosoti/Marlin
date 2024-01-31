@@ -104,6 +104,13 @@
 #endif
 
 //
+// Probe enable
+//
+#if ENABLED(PROBE_ENABLE_DISABLE) && !defined(PROBE_ENABLE_PIN)
+  #define PROBE_ENABLE_PIN            SERVO0_PIN
+#endif
+
+//
 // Filament Runout Sensor
 //
 #define FIL_RUNOUT_PIN                     P1_28  // X+
@@ -361,14 +368,14 @@
       #define LCD_PINS_EN                  -1
       #define LCD_PINS_RS                  -1
 
-      #ifndef TFT_BUFFER_SIZE
-        #define TFT_BUFFER_SIZE             1200
+      #ifndef TFT_BUFFER_WORDS
+        #define TFT_BUFFER_WORDS            1200
       #endif
       #ifndef TFT_QUEUE_SIZE
         #define TFT_QUEUE_SIZE              6144
       #endif
 
-    #else                                         // !MKS_12864OLED_SSD1306
+    #else // !MKS_12864OLED_SSD1306
 
       #define LCD_PINS_RS            EXP1_04_PIN
 
@@ -403,7 +410,7 @@
           #define NEOPIXEL_PIN       EXP1_06_PIN
         #endif
 
-      #else                                       // !FYSETC_MINI_12864
+      #else // !FYSETC_MINI_12864
 
         #if ENABLED(MKS_MINI_12864)
           #define DOGLCD_CS          EXP1_06_PIN
@@ -429,6 +436,9 @@
 
 #endif // HAS_WIRED_LCD
 
+//
+// SD Card
+//
 #ifndef SDCARD_CONNECTION
   #define SDCARD_CONNECTION              ONBOARD
 #endif

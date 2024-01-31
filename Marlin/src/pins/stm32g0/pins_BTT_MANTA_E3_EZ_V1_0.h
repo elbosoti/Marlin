@@ -53,10 +53,8 @@
 //
 // Probe enable
 //
-#if ENABLED(PROBE_ENABLE_DISABLE)
-  #ifndef PROBE_ENABLE_PIN
-    #define PROBE_ENABLE_PIN          SERVO0_PIN
-  #endif
+#if ENABLED(PROBE_ENABLE_DISABLE) && !defined(PROBE_ENABLE_PIN)
+  #define PROBE_ENABLE_PIN            SERVO0_PIN
 #endif
 
 //
@@ -350,6 +348,6 @@
 //
 // NeoPixel LED
 //
-#ifndef NEOPIXEL_PIN
-  #define NEOPIXEL_PIN                      PC7   // RGB
+#ifndef BOARD_NEOPIXEL_PIN
+  #define BOARD_NEOPIXEL_PIN                PC7   // RGB
 #endif

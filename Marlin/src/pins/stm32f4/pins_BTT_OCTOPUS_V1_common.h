@@ -45,11 +45,6 @@
 #define SERVO0_PIN                          PB6
 
 //
-// Misc. Functions
-//
-#define LED_PIN                             PA13
-
-//
 // Trinamic Stallguard pins
 //
 #define X_DIAG_PIN                          PG6   // X-STOP
@@ -60,13 +55,6 @@
 #define E1_DIAG_PIN                         PG13  // E1DET
 #define E2_DIAG_PIN                         PG14  // E2DET
 #define E3_DIAG_PIN                         PG15  // E3DET
-
-//
-// Z Probe (when not Z_MIN_PIN)
-//
-#ifndef Z_MIN_PROBE_PIN
-  #define Z_MIN_PROBE_PIN                   PB7
-#endif
 
 //
 // Limit Switches
@@ -126,6 +114,20 @@
 #endif
 
 //
+// Z Probe (when not Z_MIN_PIN)
+//
+#ifndef Z_MIN_PROBE_PIN
+  #define Z_MIN_PROBE_PIN                   PB7
+#endif
+
+//
+// Probe enable
+//
+#if ENABLED(PROBE_ENABLE_DISABLE) && !defined(PROBE_ENABLE_PIN)
+  #define PROBE_ENABLE_PIN            SERVO0_PIN
+#endif
+
+//
 // Filament Runout Sensor
 //
 #define FIL_RUNOUT_PIN                      PG12  // E0DET
@@ -146,6 +148,11 @@
 #ifndef POWER_LOSS_PIN
   #define POWER_LOSS_PIN                    PC0   // PWRDET
 #endif
+
+//
+// Misc. Functions
+//
+#define LED_PIN                             PA13
 
 //
 // Steppers
@@ -235,7 +242,7 @@
 // SD Support
 //
 #ifndef SDCARD_CONNECTION
-  #if HAS_WIRED_LCD
+  #if HAS_WIRED_LCD && DISABLED(NO_LCD_SDCARD)
     #define SDCARD_CONNECTION                LCD
   #else
     #define SDCARD_CONNECTION            ONBOARD
@@ -405,8 +412,9 @@
 #endif // BTT_MOTOR_EXPANSION
 
 //
-// LCDs and Controllers
+// LCD / Controller
 //
+
 #if IS_TFTGLCD_PANEL
 
   #if ENABLED(TFTGLCD_PANEL_SPI)
@@ -494,7 +502,8 @@
     #endif
 
   #endif
-#endif  // HAS_WIRED_LCD
+
+#endif // HAS_WIRED_LCD
 
 // Alter timing for graphical display
 #if IS_U8GLIB_ST7920
@@ -524,8 +533,8 @@
 //
 // NeoPixel LED
 //
-#ifndef NEOPIXEL_PIN
-  #define NEOPIXEL_PIN                      PB0
+#ifndef BOARD_NEOPIXEL_PIN
+  #define BOARD_NEOPIXEL_PIN                PB0
 #endif
 
 #if ENABLED(WIFISUPPORT)

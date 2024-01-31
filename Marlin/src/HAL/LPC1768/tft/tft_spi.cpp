@@ -55,15 +55,23 @@ void TFT_SPI::dataTransferBegin(uint16_t dataSize) {
   WRITE(TFT_CS_PIN, LOW);
 }
 
+#ifdef TFT_DEFAULT_DRIVER
+  #include "../../../lcd/tft_io/tft_ids.h"
+#endif
+
 uint32_t TFT_SPI::getID() {
   uint32_t id;
   id = readID(LCD_READ_ID);
   if ((id & 0xFFFF) == 0 || (id & 0xFFFF) == 0xFFFF)
     id = readID(LCD_READ_ID4);
+    #ifdef TFT_DEFAULT_DRIVER
+      if ((id & 0xFFFF) == 0 || (id & 0xFFFF) == 0xFFFF)
+        id = TFT_DEFAULT_DRIVER;
+    #endif
   return id;
 }
 
-uint32_t TFT_SPI::readID(uint16_t reg) {
+uint32_t TFT_SPI::readID(const uint16_t inReg) {
   uint32_t data = 0;
 
   #if PIN_EXISTS(TFT_MISO)
@@ -72,7 +80,7 @@ uint32_t TFT_SPI::readID(uint16_t reg) {
     SPIx.setClock(SPI_CLOCK_DIV64);
     SPIx.begin();
     WRITE(TFT_CS_PIN, LOW);
-    writeReg(reg);
+    writeReg(inReg);
 
     for (uint8_t i = 0; i < 4; ++i) {
       SPIx.read((uint8_t*)&d, 1);

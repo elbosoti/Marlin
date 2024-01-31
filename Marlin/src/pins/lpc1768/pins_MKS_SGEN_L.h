@@ -96,6 +96,13 @@
 #endif
 
 //
+// Probe enable
+//
+#if ENABLED(PROBE_ENABLE_DISABLE) && !defined(PROBE_ENABLE_PIN)
+  #define PROBE_ENABLE_PIN            SERVO0_PIN
+#endif
+
+//
 // Steppers
 //
 #define X_STEP_PIN                         P2_02
@@ -295,8 +302,8 @@
 
   #elif HAS_SPI_TFT                               // Config for Classic UI (emulated DOGM) and Color UI
     #define TFT_CS_PIN               EXP1_07_PIN
-    #define TFT_A0_PIN               EXP1_08_PIN
     #define TFT_DC_PIN               EXP1_08_PIN
+    #define TFT_A0_PIN                TFT_DC_PIN
     #define TFT_MISO_PIN             EXP2_01_PIN
     #define TFT_BACKLIGHT_PIN        EXP1_03_PIN
     #define TFT_RESET_PIN            EXP1_04_PIN
@@ -312,8 +319,8 @@
     #define LCD_PINS_EN                    -1
     #define LCD_PINS_RS                    -1
 
-    #ifndef TFT_BUFFER_SIZE
-      #define TFT_BUFFER_SIZE               1200
+    #ifndef TFT_BUFFER_WORDS
+      #define TFT_BUFFER_WORDS              1200
     #endif
     #ifndef TFT_QUEUE_SIZE
       #define TFT_QUEUE_SIZE                6144
@@ -350,7 +357,7 @@
       #define LCD_PINS_D7            EXP1_08_PIN
       #define KILL_PIN                     -1     // NC
 
-    #else                                         // !MKS_12864OLED_SSD1306
+    #else // !MKS_12864OLED_SSD1306
 
       #define LCD_PINS_RS            EXP1_04_PIN
 
@@ -385,7 +392,7 @@
           #define NEOPIXEL_PIN       EXP1_06_PIN
         #endif
 
-      #else                                       // !FYSETC_MINI_12864
+      #else // !FYSETC_MINI_12864
 
         #if ENABLED(MKS_MINI_12864)
           #define DOGLCD_CS          EXP1_06_PIN

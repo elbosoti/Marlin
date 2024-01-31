@@ -33,12 +33,12 @@
   #error "TFT IO only supports SPI, FSMC or LTDC interface."
 #endif
 
-#ifndef DMA_MAX_SIZE
-  #error "DMA_MAX_SIZE is not configured for this platform."
+#ifndef DMA_MAX_WORDS
+  #error "DMA_MAX_WORDS is not configured for this platform."
 #endif
 
 #ifndef TFT_DRIVER
-  #define TFT_DRIVER    AUTO
+  #define TFT_DRIVER AUTO
 #endif
 
 #define ESC_REG(x)   0xFFFF, 0x00FF & (uint16_t)x
@@ -64,7 +64,7 @@ public:
   inline static void dataTransferEnd() { io.dataTransferEnd(); }
 
   inline static void writeData(uint16_t data) { io.writeData(data); }
-  inline static void writeReg(uint16_t reg) { io.writeReg(reg); }
+  inline static void writeReg(const uint16_t inReg) { io.writeReg(inReg); }
 
   // Blocking IO used by TFT_CLASSIC_UI and TFT_LVGL_UI
   // These functions start data transfer and WAIT for data transfer completion

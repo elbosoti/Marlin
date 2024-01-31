@@ -53,10 +53,8 @@
 //
 // Probe enable
 //
-#if ENABLED(PROBE_ENABLE_DISABLE)
-  #ifndef PROBE_ENABLE_PIN
-    #define PROBE_ENABLE_PIN          SERVO0_PIN
-  #endif
+#if ENABLED(PROBE_ENABLE_DISABLE) && !defined(PROBE_ENABLE_PIN)
+  #define PROBE_ENABLE_PIN            SERVO0_PIN
 #endif
 
 //
@@ -238,8 +236,9 @@
 #endif
 
 //
-// LCDs and Controllers
+// LCD / Controller
 //
+
 #if IS_TFTGLCD_PANEL
 
   #if ENABLED(TFTGLCD_PANEL_SPI)
@@ -333,8 +332,8 @@
 //
 // NeoPixel LED
 //
-#ifndef NEOPIXEL_PIN
-  #define NEOPIXEL_PIN                      PC11  // RGB1
+#ifndef BOARD_NEOPIXEL_PIN
+  #define BOARD_NEOPIXEL_PIN                PC11  // RGB1
 #endif
 
 #ifndef NEOPIXEL2_PIN

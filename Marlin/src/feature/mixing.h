@@ -43,10 +43,6 @@
 
 typedef int8_t mixer_perc_t;
 
-#ifndef MIXING_VIRTUAL_TOOLS
-  #define MIXING_VIRTUAL_TOOLS 1
-#endif
-
 enum MixTool {
     FIRST_USER_VIRTUAL_TOOL = 0
   , LAST_USER_VIRTUAL_TOOL = MIXING_VIRTUAL_TOOLS - 1
@@ -108,7 +104,7 @@ class Mixer {
   }
 
   // Used when dealing with blocks
-  FORCE_INLINE static void populate_block(mixer_comp_t b_color[MIXING_STEPPERS]) {
+  FORCE_INLINE static void populate_block(mixer_comp_t (&b_color)[MIXING_STEPPERS]) {
     #if ENABLED(GRADIENT_MIX)
       if (gradient.enabled) {
         MIXER_STEPPER_LOOP(i) b_color[i] = gradient.color[i];
@@ -118,7 +114,7 @@ class Mixer {
     MIXER_STEPPER_LOOP(i) b_color[i] = color[selected_vtool][i];
   }
 
-  FORCE_INLINE static void stepper_setup(mixer_comp_t b_color[MIXING_STEPPERS]) {
+  FORCE_INLINE static void stepper_setup(mixer_comp_t (&b_color)[MIXING_STEPPERS]) {
     MIXER_STEPPER_LOOP(i) s_color[i] = b_color[i];
   }
 
@@ -231,13 +227,7 @@ class Mixer {
     for (;;) {
       if (--runner < 0) runner = MIXING_STEPPERS - 1;
       accu[runner] += s_color[runner];
-      if (
-        #ifdef MIXER_ACCU_SIGNED
-          accu[runner] < 0
-        #else
-          accu[runner] & COLOR_A_MASK
-        #endif
-      ) {
+      if (TERN(MIXER_ACCU_SIGNED, accu[runner] < 0, accu[runner] & COLOR_A_MASK)) {
         accu[runner] &= COLOR_MASK;
         return runner;
       }

@@ -241,8 +241,8 @@
 
 #if ENABLED(NEOPIXEL_LED)
   #define LED_PWM                           PC7   // IO1
-  #ifndef NEOPIXEL_PIN
-    #define NEOPIXEL_PIN                 LED_PWM  // USED WIFI IO0/IO1 PIN
+  #ifndef BOARD_NEOPIXEL_PIN
+    #define BOARD_NEOPIXEL_PIN           LED_PWM  // USED WIFI IO0/IO1 PIN
   #endif
 #endif
 
@@ -272,6 +272,7 @@
 //
 // LCD / Controller
 //
+
 #ifndef BEEPER_PIN
   #define BEEPER_PIN                        PC5
 #endif
@@ -313,7 +314,7 @@
     #define TFT_BTARROWS_COLOR            0xDEE6  // Yellow
     #define TFT_BTOKMENU_COLOR            0x145F  // Cyan
   #endif
-  #define TFT_BUFFER_SIZE                  14400
+  #define TFT_BUFFER_WORDS                 14400
 
 #elif HAS_GRAPHICAL_TFT
 
